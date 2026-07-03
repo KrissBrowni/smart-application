@@ -4,11 +4,21 @@ import { prisma } from "@/lib/prisma";
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { patientName, geburtsdatum, telefonnummer, email, arztId, terminartId, datum, startzeit } = body;
+    const { patientCode, terminartId, datum, startzeit } = body;
 
-    // Validierung
-    if (!patientName || !geburtsdatum || !telefonnummer || !arztId || !terminartId || !datum || !startzeit) {
-      return NextResponse.json({ error: "Alle Pflichtfelder ausfüllen" }, { status: 400 });
+    if (!patientCode || !terminartId || !datum || !startzeit) {
+      return NextResponse.json({ error: "Patient-Code, Terminart, Datum und Uhrzeit erforderlich" }, { status: 400 });
+    }
+
+    // Patient per Code finden
+    const patient = await prisma.patient.findUnique({ where: { patientCode: patientCode.toUpperCase() } });
+    if (!patient) {
+      return NextResponse.json({ error: "Patient nicht gefunden" }, { status: 404 });
+    }
+
+    // Sperrstatus prüfen
+    if (patient.sperrstatus === "online_gesperrt") {
+      return NextResponse.json({ error: "Online-Buchung gesperrt. Bitte kontaktieren Sie die Praxis." }, { status: 403 });
     }
 
     // Terminart prüfen
@@ -17,26 +27,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Diese Terminart ist nicht online buchbar" }, { status: 400 });
     }
 
-    // Patient finden oder anlegen
-    let patient = await prisma.patient.findFirst({
-      where: { name: patientName, geburtsdatum: new Date(geburtsdatum + "T00:00:00Z") },
-    });
-
-    if (!patient) {
-      patient = await prisma.patient.create({
-        data: {
-          name: patientName,
-          geburtsdatum: new Date(geburtsdatum + "T00:00:00Z"),
-          telefonnummer,
-          email: email || null,
-          versicherungsstatus: "gesetzlich",
-          emailOptIn: !!email,
-          smsOptIn: true,
-        },
-      });
-    }
-
-    // Slot-Daten berechnen
+    // Slot berechnen
     const [startH, startM] = startzeit.split(":").map(Number);
     const startMin = startH * 60 + startM;
     const endMin = startMin + terminart.defaultDauerMin;
@@ -46,7 +37,7 @@ export async function POST(request: NextRequest) {
     // Kollisionsprüfung
     const kollision = await prisma.termin.findFirst({
       where: {
-        arztId,
+        arztId: body.arztId || 1,
         terminartId,
         datum: terminDatum,
         startzeit,
@@ -58,15 +49,15 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Dieser Slot ist bereits belegt" }, { status: 409 });
     }
 
-    // TerminSlot finden oder erzeugen
+    // Slot finden oder erzeugen
     let slot = await prisma.terminSlot.findFirst({
-      where: { arztId, datum: terminDatum, startzeit, slotTyp: "regulär" },
+      where: { arztId: body.arztId || 1, datum: terminDatum, startzeit, slotTyp: "regulär" },
     });
 
     if (!slot) {
       slot = await prisma.terminSlot.create({
         data: {
-          arztId,
+          arztId: body.arztId || 1,
           datum: terminDatum,
           startzeit,
           endzeit,
@@ -83,7 +74,7 @@ export async function POST(request: NextRequest) {
       data: {
         patientId: patient.id,
         terminartId,
-        arztId,
+        arztId: body.arztId || 1,
         slotId: slot.id,
         datum: terminDatum,
         startzeit,
@@ -94,7 +85,7 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    return NextResponse.json({ success: true, terminId: termin.id, patientId: patient.id }, { status: 201 });
+    return NextResponse.json({ success: true, terminId: termin.id }, { status: 201 });
   } catch (error) {
     console.error("Buchungsfehler:", error);
     return NextResponse.json({ error: "Interner Serverfehler" }, { status: 500 });

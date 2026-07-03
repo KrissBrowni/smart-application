@@ -7,17 +7,19 @@ _Stand: 03.07.2026_
 ## Entscheidungen
 
 ### 2026-07-03: Architektur: Next.js + Prisma + SQLite
-- **Kontext:** Framework-Wahl
 - **Gewählt:** Next.js (App Router, TypeScript) + Prisma ORM + SQLite
-- **Begründung:** Kurs-Empfehlung (Modul 5), React-basiert, Codex baut flüssig, SQLite null Setup
 
 ### 2026-07-03: Seed-Daten
-- **Gewählt:** Dr. Demir (Inhaberin), Dr. Yilmaz, Dr. Schäfer; 7 Terminarten; Sprechzeiten Mo–Fr 8–16 Uhr
+- Dr. Demir (Inhaberin), Dr. Yilmaz, Dr. Schäfer; 7 Terminarten; Sprechzeiten Mo–Fr 8–16 Uhr
 
 ### 2026-07-03: Feature PK-001 Online-Terminbuchung
 - **Status:** done
 
 ### 2026-07-03: Feature PK-002 Wiederholungsrezept-Workflow
-- **Details:** POST /api/rezepte/anfragen (Patient reicht ein), GET /api/rezepte (Liste für MFA/Arzt), PATCH /api/rezepte/[id]/freigeben (Freigabe/Ablehnung), UI-Seiten für Patient und Verwaltung
-- **Geschäftsregel:** 3-Monats-Intervallblockade nach Freigabe
+- **Status:** done
+
+### 2026-07-03: Feature PK-003 DSGVO-konforme Patientenidentifikation
+- **Details:** Jeder Patient erhält eindeutigen Code (PAT-XXXX), Identifikation per Code + Geburtsdatum, keine Klarnamen in URLs, Sperrstatus-Prüfung vor Buchung
+- **APIs:** POST /api/patient/register, POST /api/patient/identify
+- **UI:** Registrierungsseite (/patient/register), Login (/patient/login), aktualisierte Buchungsseite mit Code
 - **Status:** done

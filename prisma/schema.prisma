@@ -9,6 +9,7 @@ datasource db {
 
 // E1 – Patient
 model Patient {
+  patientCode  String   @unique
   id                    Int       @id @default(autoincrement())
   name                  String
   geburtsdatum          DateTime
