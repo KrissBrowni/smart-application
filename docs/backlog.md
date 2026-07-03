@@ -1,0 +1,57 @@
+# backlog.md — Praxis Demir & Kollegen
+
+_Stand: 03.07.2026_
+
+_Stabile Feature-IDs. Nicht umnummerieren. Killed-IDs bleiben killed._
+
+---
+
+## Konvention
+
+- **ID-Schema:** `PK-NNN` (Praxis Demir & Kollegen)
+- **Nummerierung:** fortlaufend, nie wiederverwendet
+- **Referenzierung:** In Commits immer per ID
+
+## Status-Werte
+
+| Status | Bedeutung |
+|--------|-----------|
+| `hypo` | Hypothese, noch nicht validiert |
+| `validated` | Mit Kunde bestätigt, aber noch kein Code |
+| `in-progress` | Aktuell in Arbeit |
+| `done` | Implementiert, im Commit referenziert |
+| `killed` | Verworfen — Begründung in decisions.md |
+
+## Features
+
+| ID | Name | Phase | Status | Quelle | Notiz |
+|----|------|-------|--------|--------|-------|
+| PK-001 | Online-Terminbuchung mit Arztverfügbarkeit | 1 | validated | docs/spec.md §7.1 P1 | Kernfeature: Routine-Termine online buchbar, Arztkalender + Sprechzeiten + Abwesenheiten beachten |
+| PK-002 | Wiederholungsrezept-Workflow | 1 | validated | docs/spec.md §7.1 P2 | Rezeptanfragen digital, ärztliche Freigabe, Benachrichtigung |
+| PK-003 | DSGVO-konforme Patientenidentifikation | 1 | validated | docs/spec.md §7.1 P3 | Sichere ID bei jeder Buchung |
+| PK-004 | Akutslots korrekt schützen | 1 | validated | docs/spec.md §7.1 P4 | Akutsprechstunden nicht online buchbar |
+| PK-005 | No-Show-Tracking | 2 | validated | docs/spec.md §7.2 | Automatische Erfassung und Konsequenzen |
+| PK-006 | Benachrichtigungen bei Terminänderung & Rezeptfreigabe | 2 | validated | docs/spec.md §7.2 Should | SMS/E-Mail-Benachrichtigungen |
+| PK-007 | Alternative Terminvorschläge bei Arzt-Ausfall | 2 | hypo | docs/spec.md §7.2 Should | |
+| PK-008 | Wochenübersicht für Praxisinhaberin | 2 | hypo | docs/spec.md §7.2 Should | Einfache Kalenderansicht |
+| PK-009 | Opt-in-Verwaltung für SMS/E-Mail | 2 | hypo | docs/spec.md §7.2 Should | |
+| PK-010 | Online-Termin absagen/umbuchen | 2 | hypo | docs/spec.md §7.2 Should | |
+| PK-011 | Warteliste für frei gewordene Termine | 3 | hypo | docs/spec.md §7.3 Could | |
+| PK-012 | Patientenpräferenzen für Ärzt:innen | 3 | hypo | docs/spec.md §7.3 Could | |
+| PK-013 | Dashboard für MFA-Team | 3 | hypo | docs/spec.md §7.3 Could | |
+| PK-014 | No-Show-Brief-Vorlagen | 3 | hypo | docs/spec.md §7.3 Could | |
+
+---
+
+## Workflow
+
+**Feature wird gebaut:**
+- Status → `in-progress`, Branch-Name in Notiz
+- Commit-Message: `feat: PK-NNN [Feature-Name]`
+
+**Feature fertig:**
+- Status → `done`, Commit-Hash in Notiz
+
+**Feature verworfen:**
+- Status → `killed`, Eintrag in decisions.md
+- ID bleibt stehen, wird nie wiederverwendet
