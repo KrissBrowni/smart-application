@@ -46,3 +46,7 @@ _Stand: 03.07.2026_
 ### 2026-07-03: Feature PK-009 Opt-in-Verwaltung für SMS/E-Mail
 - **Details:** GET/PATCH /api/patient/opt-in (abrufen + aktualisieren), jede Änderung als Einwilligung dokumentiert, Patientenseite (/opt-in) und MFA-Seite (/opt-in-verwaltung)
 - **Status:** done
+
+### 2026-07-03: Feature PK-010 Online-Termin absagen/umbuchen
+- **Details:** GET /api/termine/meine (Termine eines Patienten), PATCH /api/termine/[id]/absagen (Absage + Benachrichtigung), PATCH /api/termine/[id]/umbuchen (neuer Slot + Status "verschoben"), Patientenseite (/meine-termine)
+- **Status:** done
