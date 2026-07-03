@@ -1,0 +1,224 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+// E1 – Patient
+model Patient {
+  id                    Int       @id @default(autoincrement())
+  name                  String
+  geburtsdatum          DateTime
+  versichertennummer    String?
+  praxisPatientennummer String?
+  versicherungsstatus   String    // gesetzlich, privat, selbstzahler
+  telefonnummer         String
+  email                 String?
+  emailOptIn            Boolean   @default(false)
+  smsOptIn              Boolean   @default(false)
+  noShowZaehler         Int       @default(0)
+  sperrstatus           String    @default("aktiv") // aktiv, gewarnt, online_gesperrt
+  angelegtAm            DateTime  @default(now())
+
+  termine          Termin[]
+  rezeptanfragen   Rezeptanfrage[]
+  benachrichtigungen Benachrichtigung[]
+  noShowEreignisse  NoShowEreignis[]
+  patientensperren Patientensperre[]
+  einwilligungen   Einwilligung[]
+}
+
+// E2 – Termin
+model Termin {
+  id            Int      @id @default(autoincrement())
+  patientId     Int
+  terminartId   Int
+  arztId        Int?
+  slotId        Int
+  datum         DateTime
+  startzeit     String   // HH:mm
+  endzeit       String   // HH:mm
+  dauerMinuten  Int
+  status        String   // geplant, wahrgenommen, abgesagt, verschoben, no_show, arzt_ausfall_betroffen
+  buchungsweg   String   // online, telefonisch, walk_in, intern
+  interneNotiz  String?
+  erstelltAm    DateTime @default(now())
+  storniertAm   DateTime?
+
+  patient   Patient           @relation(fields: [patientId], references: [id])
+  terminart Terminart         @relation(fields: [terminartId], references: [id])
+  arzt      Arzt?             @relation(fields: [arztId], references: [id])
+  slot      TerminSlot        @relation(fields: [slotId], references: [id])
+  noShow    NoShowEreignis?
+}
+
+// E3 – Terminart
+model Terminart {
+  id                Int     @id @default(autoincrement())
+  name              String
+  defaultDauerMin   Int
+  onlineBuchbar     Boolean
+  vorausbuchbar     Boolean
+  brauchtArzt       Boolean
+  brauchtMfa        Boolean
+  triageErforderlich Boolean
+  aktiv             Boolean @default(true)
+
+  termine Termin[]
+}
+
+// E4 – Ärztin / Arzt
+model Arzt {
+  id                    Int     @id @default(autoincrement())
+  name                  String
+  rolle                 String  // aerztin, inhaberin, vertretung
+  aktiv                 Boolean @default(true)
+  verfuegbarkeitsstatus String  @default("verfuegbar") // verfuegbar, abwesend, teilweise_verfuegbar
+  besondereSchwerpunkte String?
+
+  termine        Termin[]
+  sprechzeiten   Sprechzeit[]
+  abwesenheiten  Abwesenheitsereignis[]
+  freigaben      Rezeptanfrage[]
+  slots          TerminSlot[]
+}
+
+// E5 – MFA
+model Mfa {
+  id                Int     @id @default(autoincrement())
+  name              String
+  rolle             String  // mfa, leitende_mfa
+  aktiv             Boolean @default(true)
+  berechtigungsstufe String @default("standard") // standard, erweitert
+
+  rezeptanfragen Rezeptanfrage[]
+}
+
+// E6 – TerminSlot / Verfügbarkeitsblock
+model TerminSlot {
+  id            Int      @id @default(autoincrement())
+  arztId        Int?
+  datum         DateTime
+  startzeit     String   // HH:mm
+  endzeit       String   // HH:mm
+  slotTyp       String   // regulär, akut, abwesenheit, praxisschließung
+  status        String   @default("frei") // frei, reserviert, belegt, gesperrt
+  onlineSichtbar Boolean @default(true)
+  vorausbuchbar Boolean  @default(true)
+  grund         String?
+
+  arzt   Arzt?   @relation(fields: [arztId], references: [id])
+  termine Termin[]
+}
+
+// E7 – Rezeptanfrage
+model Rezeptanfrage {
+  id                Int       @id @default(autoincrement())
+  patientId         Int
+  medikamentReferenz String
+  angefragtAm       DateTime  @default(now())
+  status            String    // eingegangen, in_bearbeitung, freigegeben, abgelehnt, benachrichtigt
+  fruehestensAb     DateTime?
+  bearbeitetDurchMfaId Int?
+  freigegebenDurchArztId Int?
+  ablehnungsgrund   String?
+  benachrichtigtAm  DateTime?
+
+  patient       Patient @relation(fields: [patientId], references: [id])
+  bearbeiter    Mfa?    @relation(fields: [bearbeitetDurchMfaId], references: [id])
+  freigeber     Arzt?   @relation(fields: [freigegebenDurchArztId], references: [id])
+}
+
+// E8 – Benachrichtigung
+model Benachrichtigung {
+  id          Int      @id @default(autoincrement())
+  patientId   Int
+  bezugstyp   String   // termin, rezeptanfrage, no_show, system
+  bezugsId    Int?
+  kanal       String   // sms, email, telefon, brief, app
+  typ         String   // erinnerung, absage, rezept_bereit, no_show_warnung
+  status      String   @default("geplant") // geplant, versendet, zugestellt, fehlgeschlagen, nicht_erlaubt
+  erstelltAm  DateTime @default(now())
+  versendetAm DateTime?
+
+  patient Patient @relation(fields: [patientId], references: [id])
+}
+
+// E9 – NoShowEreignis
+model NoShowEreignis {
+  id            Int      @id @default(autoincrement())
+  patientId     Int
+  terminId      Int      @unique
+  erfasstAm     DateTime @default(now())
+  zaehltFuerSperre Boolean @default(true)
+  kommentar     String?
+
+  patient Patient @relation(fields: [patientId], references: [id])
+  termin  Termin  @relation(fields: [terminId], references: [id])
+}
+
+// E10 – Patientensperre
+model Patientensperre {
+  id              Int      @id @default(autoincrement())
+  patientId       Int
+  grund           String   // drei_no_shows, manuell, sonstiges
+  status          String   @default("aktiv") // aktiv, aufgehoben
+  aktiviertAm     DateTime @default(now())
+  aktiviertDurch  Int      // arzt_id oder mfa_id
+  aufgehobenAm    DateTime?
+  aufgehobenDurch Int?
+
+  patient Patient @relation(fields: [patientId], references: [id])
+}
+
+// E11 – Einwilligung
+model Einwilligung {
+  id                      Int      @id @default(autoincrement())
+  patientId               Int
+  zweck                   String   // email_erinnerung, sms_erinnerung, rezeptbenachrichtigung
+  kanal                   String   // email, sms, app
+  status                  String   // erteilt, widerrufen, nicht_erteilt
+  erteiltAm               DateTime?
+  widerrufenAm            DateTime?
+  datenschutzhinweisVersion String?
+
+  patient Patient @relation(fields: [patientId], references: [id])
+}
+
+// E12 – Abwesenheitsereignis / Praxisschließung
+model Abwesenheitsereignis {
+  id              Int      @id @default(autoincrement())
+  arztId          Int?
+  typ             String   // urlaub, krankheit, fortbildung, brueckentag, praxis_geschlossen
+  startDatum      DateTime
+  endDatum        DateTime
+  betrifftGanzePraxis Boolean @default(false)
+  grund           String?
+
+  arzt Arzt? @relation(fields: [arztId], references: [id])
+}
+
+// E13 – Wochenbericht
+model Wochenbericht {
+  id                      Int     @id @default(autoincrement())
+  kalenderwoche           Int
+  jahr                    Int
+  onlineBuchungsquote     Float
+  noShowRateProArzt       String  // JSON-Struktur
+  akutslotAuslastung      Float
+  offeneRezeptanfragen    Int
+  durchschnittlicheLiegezeit Float
+}
+
+// Sprechzeit (embedded in Arzt)
+model Sprechzeit {
+  id      Int    @id @default(autoincrement())
+  arztId  Int
+  tag     Int    // 1=Montag, 7=Sonntag
+  startzeit String // HH:mm
+  endzeit   String // HH:mm
+
+  arzt Arzt @relation(fields: [arztId], references: [id])
+}
