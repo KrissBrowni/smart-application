@@ -29,7 +29,7 @@ _Stand: 03.07.2026_
 | PK-003 | DSGVO-konforme Patientenidentifikation | 1 | done | docs/spec.md §7.1 P3 | Sichere ID bei jeder Buchung |
 | PK-004 | Akutslots korrekt schützen | 1 | done | docs/spec.md §7.1 P4 | Akutsprechstunden nicht online buchbar |
 | PK-005 | No-Show-Tracking | 2 | done | docs/spec.md §7.2 | Automatische Erfassung und Konsequenzen |
-| PK-006 | Benachrichtigungen bei Terminänderung & Rezeptfreigabe | 2 | validated | docs/spec.md §7.2 Should | SMS/E-Mail-Benachrichtigungen |
+| PK-006 | Benachrichtigungen bei Terminänderung & Rezeptfreigabe | 2 | done | docs/spec.md §7.2 Should | SMS/E-Mail-Benachrichtigungen |
 | PK-007 | Alternative Terminvorschläge bei Arzt-Ausfall | 2 | hypo | docs/spec.md §7.2 Should | |
 | PK-008 | Wochenübersicht für Praxisinhaberin | 2 | hypo | docs/spec.md §7.2 Should | Einfache Kalenderansicht |
 | PK-009 | Opt-in-Verwaltung für SMS/E-Mail | 2 | hypo | docs/spec.md §7.2 Should | |

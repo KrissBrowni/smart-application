@@ -29,3 +29,7 @@ _Stand: 03.07.2026_
 - **Geschäftsregel:** 3 No-Shows → automatische Online-Sperre, leitende MFA kann Sperre aufheben
 - **APIs:** 4 neue Endpunkte + Übersichtsseite
 - **Status:** done
+
+### 2026-07-03: Feature PK-006 Benachrichtigungen
+- **Details:** GET /api/benachrichtigungen (Patient + MFA), PATCH /api/benachrichtigungen/[id] (Status-Update), automatische Erzeugung bei Buchung (Erinnerung) + Rezeptfreigabe + No-Show (Warnung), UI für Patienten (/benachrichtigungen) und MFAs (/benachrichtigungen-verwaltung)
+- **Status:** done

@@ -54,6 +54,18 @@ export async function PATCH(
       });
     }
 
+    // Automatische Benachrichtigung: No-Show-Warnung
+    await prisma.benachrichtigung.create({
+      data: {
+        patientId: patient.id,
+        bezugstyp: "no_show",
+        bezugsId: id,
+        kanal: "telefon",
+        typ: "no_show_warnung",
+        status: "geplant",
+      },
+    });
+
     return NextResponse.json({
       success: true,
       noShowZaehler: patient.noShowZaehler,

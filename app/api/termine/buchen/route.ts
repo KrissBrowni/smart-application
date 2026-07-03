@@ -85,6 +85,18 @@ export async function POST(request: NextRequest) {
       },
     });
 
+    // Automatische Benachrichtigung: Termin-Erinnerung
+    await prisma.benachrichtigung.create({
+      data: {
+        patientId: patient.id,
+        bezugstyp: "termin",
+        bezugsId: termin.id,
+        kanal: patient.emailOptIn ? "email" : "sms",
+        typ: "erinnerung",
+        status: "geplant",
+      },
+    });
+
     return NextResponse.json({ success: true, terminId: termin.id }, { status: 201 });
   } catch (error) {
     console.error("Buchungsfehler:", error);
