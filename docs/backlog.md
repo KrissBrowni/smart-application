@@ -2,8 +2,6 @@
 
 _Stand: 03.07.2026_
 
-_Stabile Feature-IDs. Nicht umnummerieren. Killed-IDs bleiben killed._
-
 ---
 
 ## Konvention
@@ -26,7 +24,7 @@ _Stabile Feature-IDs. Nicht umnummerieren. Killed-IDs bleiben killed._
 
 | ID | Name | Phase | Status | Quelle | Notiz |
 |----|------|-------|--------|--------|-------|
-| PK-001 | Online-Terminbuchung mit Arztverfügbarkeit | 1 | validated | docs/spec.md §7.1 P1 | Kernfeature: Routine-Termine online buchbar, Arztkalender + Sprechzeiten + Abwesenheiten beachten |
+| PK-001 | Online-Terminbuchung mit Arztverfügbarkeit | 1 | done | docs/spec.md §7.1 P1 | Commit d25c292+ – Verfügbarkeits-API, Buchungs-API, UI |
 | PK-002 | Wiederholungsrezept-Workflow | 1 | validated | docs/spec.md §7.1 P2 | Rezeptanfragen digital, ärztliche Freigabe, Benachrichtigung |
 | PK-003 | DSGVO-konforme Patientenidentifikation | 1 | validated | docs/spec.md §7.1 P3 | Sichere ID bei jeder Buchung |
 | PK-004 | Akutslots korrekt schützen | 1 | validated | docs/spec.md §7.1 P4 | Akutsprechstunden nicht online buchbar |
@@ -40,18 +38,3 @@ _Stabile Feature-IDs. Nicht umnummerieren. Killed-IDs bleiben killed._
 | PK-012 | Patientenpräferenzen für Ärzt:innen | 3 | hypo | docs/spec.md §7.3 Could | |
 | PK-013 | Dashboard für MFA-Team | 3 | hypo | docs/spec.md §7.3 Could | |
 | PK-014 | No-Show-Brief-Vorlagen | 3 | hypo | docs/spec.md §7.3 Could | |
-
----
-
-## Workflow
-
-**Feature wird gebaut:**
-- Status → `in-progress`, Branch-Name in Notiz
-- Commit-Message: `feat: PK-NNN [Feature-Name]`
-
-**Feature fertig:**
-- Status → `done`, Commit-Hash in Notiz
-
-**Feature verworfen:**
-- Status → `killed`, Eintrag in decisions.md
-- ID bleibt stehen, wird nie wiederverwendet
