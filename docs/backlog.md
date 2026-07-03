@@ -25,7 +25,7 @@ _Stand: 03.07.2026_
 | ID | Name | Phase | Status | Quelle | Notiz |
 |----|------|-------|--------|--------|-------|
 | PK-001 | Online-Terminbuchung mit Arztverfügbarkeit | 1 | done | docs/spec.md §7.1 P1 | Commit d25c292+ – Verfügbarkeits-API, Buchungs-API, UI |
-| PK-002 | Wiederholungsrezept-Workflow | 1 | validated | docs/spec.md §7.1 P2 | Rezeptanfragen digital, ärztliche Freigabe, Benachrichtigung |
+| PK-002 | Wiederholungsrezept-Workflow | 1 | done | docs/spec.md §7.1 P2 | Rezeptanfragen digital, ärztliche Freigabe, Benachrichtigung |
 | PK-003 | DSGVO-konforme Patientenidentifikation | 1 | validated | docs/spec.md §7.1 P3 | Sichere ID bei jeder Buchung |
 | PK-004 | Akutslots korrekt schützen | 1 | validated | docs/spec.md §7.1 P4 | Akutsprechstunden nicht online buchbar |
 | PK-005 | No-Show-Tracking | 2 | validated | docs/spec.md §7.2 | Automatische Erfassung und Konsequenzen |
