@@ -1,4 +1,0 @@
-{
-  "/api/termine/buchen/route": "app/api/termine/buchen/route.js",
-  "/api/termine/verfuegbarkeit/route": "app/api/termine/verfuegbarkeit/route.js"
-}
