@@ -19,7 +19,10 @@ _Stand: 03.07.2026_
 - **Status:** done
 
 ### 2026-07-03: Feature PK-003 DSGVO-konforme Patientenidentifikation
-- **Details:** Jeder Patient erhält eindeutigen Code (PAT-XXXX), Identifikation per Code + Geburtsdatum, keine Klarnamen in URLs, Sperrstatus-Prüfung vor Buchung
-- **APIs:** POST /api/patient/register, POST /api/patient/identify
-- **UI:** Registrierungsseite (/patient/register), Login (/patient/login), aktualisierte Buchungsseite mit Code
+- **Status:** done
+
+### 2026-07-03: Feature PK-004 Akutslots korrekt schützen
+- **Details:** Tägliche Akut-Slot-Blöcke (8:00, 9:00, 10:00), nicht online sichtbar, MFA-API zur Vergabe
+- **APIs:** GET /api/mfa/akutslot, POST /api/mfa/akutslot
+- **UI:** /akutslot-vergabe (nur MFAs)
 - **Status:** done
