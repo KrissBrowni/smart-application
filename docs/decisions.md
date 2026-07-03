@@ -33,3 +33,7 @@ _Stand: 03.07.2026_
 ### 2026-07-03: Feature PK-006 Benachrichtigungen
 - **Details:** GET /api/benachrichtigungen (Patient + MFA), PATCH /api/benachrichtigungen/[id] (Status-Update), automatische Erzeugung bei Buchung (Erinnerung) + Rezeptfreigabe + No-Show (Warnung), UI für Patienten (/benachrichtigungen) und MFAs (/benachrichtigungen-verwaltung)
 - **Status:** done
+
+### 2026-07-03: Feature PK-007 Alternative Terminvorschläge bei Arzt-Ausfall
+- **Details:** GET /api/termine/arzt-ausfall (Vorschau betroffener Termine + alternative Ärzte), POST /api/termine/arzt-ausfall (Ausfall melden, Termine als betroffen markieren, Benachrichtigungen erzeugen), MFA-UI (/arzt-ausfall)
+- **Status:** done
