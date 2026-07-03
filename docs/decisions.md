@@ -22,7 +22,10 @@ _Stand: 03.07.2026_
 - **Status:** done
 
 ### 2026-07-03: Feature PK-004 Akutslots korrekt schützen
-- **Details:** Tägliche Akut-Slot-Blöcke (8:00, 9:00, 10:00), nicht online sichtbar, MFA-API zur Vergabe
-- **APIs:** GET /api/mfa/akutslot, POST /api/mfa/akutslot
-- **UI:** /akutslot-vergabe (nur MFAs)
+- **Status:** done
+
+### 2026-07-03: Feature PK-005 No-Show-Tracking
+- **Details:** PATCH /api/termine/[id]/no-show (No-Show markieren, Zähler +1), PATCH /api/patientensperre/[id]/aufheben (Sperre aufheben durch leitende MFA), GET /api/no-show-protokoll, MFA-UI (/no-show-verwaltung)
+- **Geschäftsregel:** 3 No-Shows → automatische Online-Sperre, leitende MFA kann Sperre aufheben
+- **APIs:** 4 neue Endpunkte + Übersichtsseite
 - **Status:** done
