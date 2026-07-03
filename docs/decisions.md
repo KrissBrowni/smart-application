@@ -42,3 +42,7 @@ _Stand: 03.07.2026_
 - **Details:** GET /api/wochenuebersicht?kw=&jahr= (berechnet Kennzahlen aus DB), UI mit Karten-Ansicht (/wochenuebersicht), Navigation zwischen Wochen
 - **Kennzahlen:** Termine gesamt, Online-Buchungsquote, No-Show-Rate, offene Rezeptanfragen, Akutslot-Auslastung, No-Shows pro Arzt
 - **Status:** done
+
+### 2026-07-03: Feature PK-009 Opt-in-Verwaltung für SMS/E-Mail
+- **Details:** GET/PATCH /api/patient/opt-in (abrufen + aktualisieren), jede Änderung als Einwilligung dokumentiert, Patientenseite (/opt-in) und MFA-Seite (/opt-in-verwaltung)
+- **Status:** done
