@@ -37,3 +37,8 @@ _Stand: 03.07.2026_
 ### 2026-07-03: Feature PK-007 Alternative Terminvorschläge bei Arzt-Ausfall
 - **Details:** GET /api/termine/arzt-ausfall (Vorschau betroffener Termine + alternative Ärzte), POST /api/termine/arzt-ausfall (Ausfall melden, Termine als betroffen markieren, Benachrichtigungen erzeugen), MFA-UI (/arzt-ausfall)
 - **Status:** done
+
+### 2026-07-03: Feature PK-008 Wochenübersicht für Praxisinhaberin
+- **Details:** GET /api/wochenuebersicht?kw=&jahr= (berechnet Kennzahlen aus DB), UI mit Karten-Ansicht (/wochenuebersicht), Navigation zwischen Wochen
+- **Kennzahlen:** Termine gesamt, Online-Buchungsquote, No-Show-Rate, offene Rezeptanfragen, Akutslot-Auslastung, No-Shows pro Arzt
+- **Status:** done
