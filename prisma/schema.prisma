@@ -30,6 +30,7 @@ model Patient {
   noShowEreignisse  NoShowEreignis[]
   patientensperren Patientensperre[]
   einwilligungen   Einwilligung[]
+  warteliste       Warteliste[]
 }
 
 // E2 – Termin
@@ -69,6 +70,7 @@ model Terminart {
   aktiv             Boolean @default(true)
 
   termine Termin[]
+  warteliste Warteliste[]
 }
 
 // E4 – Ärztin / Arzt
@@ -223,4 +225,22 @@ model Sprechzeit {
   endzeit   String // HH:mm
 
   arzt Arzt @relation(fields: [arztId], references: [id])
+
+
+
+}
+// E14 – Warteliste
+model Warteliste {
+  id          Int      @id @default(autoincrement())
+  patientId   Int
+  terminartId Int
+  startDatum  DateTime
+  endDatum    DateTime
+  fruehzeit   String   // HH:mm
+  spaetzeit   String   // HH:mm
+  status      String   @default("wartet") // wartet, benachrichtigt, entfernt
+  erstelltAm  DateTime @default(now())
+
+  patient   Patient   @relation(fields: [patientId], references: [id])
+  terminart Terminart @relation(fields: [terminartId], references: [id])
 }

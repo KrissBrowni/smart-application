@@ -50,3 +50,8 @@ _Stand: 03.07.2026_
 ### 2026-07-03: Feature PK-010 Online-Termin absagen/umbuchen
 - **Details:** GET /api/termine/meine (Termine eines Patienten), PATCH /api/termine/[id]/absagen (Absage + Benachrichtigung), PATCH /api/termine/[id]/umbuchen (neuer Slot + Status "verschoben"), Patientenseite (/meine-termine)
 - **Status:** done
+
+### 2026-07-06: Feature PK-011 Warteliste für frei gewordene Termine
+- **Details:** POST /api/warteliste (Patient eintragen), DELETE /api/warteliste/[id] (austragen), GET /api/warteliste (eigene Einträge), GET /api/warteliste/check (MFA-Übersicht + Absagen heute)
+- **UI:** Patientenseite (/warteliste), MFA-Seite (/warteliste-verwaltung)
+- **Status:** done
