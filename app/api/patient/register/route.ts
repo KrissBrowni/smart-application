@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Neuen Patienten mit Code anlegen
-    let patientCode;
+    let patientCode = '';
     let exists = true;
     while (exists) {
       patientCode = generatePatientCode();

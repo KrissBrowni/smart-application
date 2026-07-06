@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import crypto from "crypto";
 import { prisma } from "@/lib/prisma";
 
 export async function POST(request: NextRequest) {
@@ -16,8 +17,10 @@ export async function POST(request: NextRequest) {
     });
 
     if (!patient) {
+      const newCode = 'PAT-' + crypto.randomBytes(3).toString('hex').toUpperCase();
       patient = await prisma.patient.create({
         data: {
+          patientCode: newCode,
           name: patientName,
           geburtsdatum: new Date(geburtsdatum + "T00:00:00Z"),
           telefonnummer: telefonnummer || "",

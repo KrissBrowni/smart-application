@@ -24,7 +24,7 @@ export default function ArztAusfallPage() {
   const [loading, setLoading] = useState(false);
   const [loadingVorschau, setLoadingVorschau] = useState(false);
   const [error, setError] = useState("");
-  const [erfolg, setErfolg = useState("");
+  const [erfolg, setErfolg] = useState("");
   const [vorschau, setVorschau] = useState<{ termine: TerminItem[]; alternativeAerzte: Arzt[] } | null>(null);
 
   useEffect(() => {
