@@ -59,3 +59,11 @@ _Stand: 03.07.2026_
 ### 2026-07-06: Feature PK-012 Patientenpräferenzen für Ärzt:innen
 - **Details:** Schema-Erweiterung `bevorzugterArztId` auf Patient, GET/PATCH /api/patient/praferenz, Verfügbarkeit priorisiert bevorzugten Arzt, UI (/praferenz)
 - **Status:** done
+
+### 2026-07-06: Feature PK-013 Dashboard für MFA-Team
+- **Details:** GET /api/mfa/dashboard (Kacheln mit Kennzahlen: Termine heute, offene Rezepte, freie Akutslots, Warteliste, No-Shows, Sperren + heutige Terminliste), MFA-UI (/dashboard)
+- **Status:** done
+
+### 2026-07-06: Feature PK-013 Dashboard für MFA-Team
+- **Details:** GET /api/mfa/dashboard (Kacheln mit Kennzahlen: Termine heute, offene Rezepte, freie Akutslots, Warteliste, No-Shows, Sperren + heutige Terminliste), MFA-UI (/dashboard)
+- **Status:** done

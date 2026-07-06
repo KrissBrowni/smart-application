@@ -36,5 +36,5 @@ _Stand: 03.07.2026_
 | PK-010 | Online-Termin absagen/umbuchen | 2 | done | docs/spec.md §7.2 Should | |
 | PK-011 | Warteliste für frei gewordene Termine | 3 | done | docs/spec.md §7.3 Could | |
 | PK-012 | Patientenpräferenzen für Ärzt:innen | 3 | done | docs/spec.md §7.3 Could | |
-| PK-013 | Dashboard für MFA-Team | 3 | hypo | docs/spec.md §7.3 Could | |
+| PK-013 | Dashboard für MFA-Team | 3 | done | docs/spec.md §7.3 Could | |
 | PK-014 | No-Show-Brief-Vorlagen | 3 | hypo | docs/spec.md §7.3 Could | |
