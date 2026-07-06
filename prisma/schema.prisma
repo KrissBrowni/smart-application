@@ -10,6 +10,7 @@ datasource db {
 // E1 – Patient
 model Patient {
   patientCode  String   @unique
+  bevorzugterArztId Int?
   id                    Int       @id @default(autoincrement())
   name                  String
   geburtsdatum          DateTime

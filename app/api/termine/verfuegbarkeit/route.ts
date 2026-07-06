@@ -5,6 +5,7 @@ export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const datum = searchParams.get("datum");
   const arztId = searchParams.get("arztId");
+  const patientCode = searchParams.get("patientCode");
 
   if (!datum) {
     return NextResponse.json({ error: "Datum erforderlich (YYYY-MM-DD)" }, { status: 400 });
@@ -97,6 +98,18 @@ export async function GET(request: NextRequest) {
           }
         }
       }
+    }
+  }
+
+  // Bevorzugten Arzt priorisieren
+  if (patientCode) {
+    const patient = await prisma.patient.findUnique({ where: { patientCode: patientCode.toUpperCase() } });
+    if (patient?.bevorzugterArztId) {
+      slots.sort((a: any, b: any) => {
+        if (a.arztId === patient.bevorzugterArztId && b.arztId !== patient.bevorzugterArztId) return -1;
+        if (a.arztId !== patient.bevorzugterArztId && b.arztId === patient.bevorzugterArztId) return 1;
+        return 0;
+      });
     }
   }
 

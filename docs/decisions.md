@@ -55,3 +55,7 @@ _Stand: 03.07.2026_
 - **Details:** POST /api/warteliste (Patient eintragen), DELETE /api/warteliste/[id] (austragen), GET /api/warteliste (eigene Einträge), GET /api/warteliste/check (MFA-Übersicht + Absagen heute)
 - **UI:** Patientenseite (/warteliste), MFA-Seite (/warteliste-verwaltung)
 - **Status:** done
+
+### 2026-07-06: Feature PK-012 Patientenpräferenzen für Ärzt:innen
+- **Details:** Schema-Erweiterung `bevorzugterArztId` auf Patient, GET/PATCH /api/patient/praferenz, Verfügbarkeit priorisiert bevorzugten Arzt, UI (/praferenz)
+- **Status:** done
