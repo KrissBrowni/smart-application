@@ -67,3 +67,7 @@ _Stand: 03.07.2026_
 ### 2026-07-06: Feature PK-013 Dashboard für MFA-Team
 - **Details:** GET /api/mfa/dashboard (Kacheln mit Kennzahlen: Termine heute, offene Rezepte, freie Akutslots, Warteliste, No-Shows, Sperren + heutige Terminliste), MFA-UI (/dashboard)
 - **Status:** done
+
+### 2026-07-06: Feature PK-014 No-Show-Brief-Vorlagen
+- **Details:** POST /api/no-show-brief (generiert Brief mit No-Show-Historie + Sperrstatus-Info), GET /api/no-show-brief (Historie versendeter Briefe), MFA-UI (/no-show-briefe)
+- **Status:** done
