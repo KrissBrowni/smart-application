@@ -9,7 +9,8 @@ export async function PATCH(
     const { id: idStr } = await params;
     const id = parseInt(idStr);
     const body = await request.json();
-    const { patientCode, neueStartzeit, neuesDatum, arztId } = body;
+    const { patientCode, neueStartzeit, neuesDatum, arztId: arztIdBody } = body;
+    const arztId = arztIdBody || 1;
 
     if (isNaN(id)) return NextResponse.json({ error: "Ungültige ID" }, { status: 400 });
 
@@ -35,20 +36,25 @@ export async function PATCH(
     const endzeit = `${String(Math.floor(endMin / 60)).padStart(2, "0")}:${String(endMin % 60).padStart(2, "0")}`;
     const terminDatum = new Date(neuesDatum + "T00:00:00Z");
 
-    // Kollisionsprüfung
-    const kollision = await prisma.termin.findFirst({
+    // Kollisionsprüfung – echte Zeitbereichs-Überlappung (alle Terminarten)
+    const alleBuchungenAmTag = await prisma.termin.findMany({
       where: {
-        arztId: arztId || termin.arztId,
-        terminartId: termin.terminartId,
+        arztId,
         datum: terminDatum,
-        startzeit: neueStartzeit,
         status: { notIn: ["abgesagt", "arzt_ausfall_betroffen"] },
         id: { not: id },
       },
     });
 
-    if (kollision) {
-      return NextResponse.json({ error: "Neuer Slot bereits belegt" }, { status: 409 });
+    for (const b of alleBuchungenAmTag) {
+      const [bSH, bSM] = b.startzeit.split(":").map(Number);
+      const [bEH, bEM] = b.endzeit.split(":").map(Number);
+      const bStart = bSH * 60 + bSM;
+      const bEnd = bEH * 60 + bEM;
+
+      if (startMin < bEnd && endMin > bStart) {
+        return NextResponse.json({ error: "Neuer Zeitraum ist bereits belegt" }, { status: 409 });
+      }
     }
 
     // Umbuchen
@@ -58,7 +64,7 @@ export async function PATCH(
         datum: terminDatum,
         startzeit: neueStartzeit,
         endzeit,
-        arztId: arztId || termin.arztId,
+        arztId,
         status: "verschoben",
       },
     });

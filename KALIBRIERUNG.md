@@ -20,7 +20,7 @@ Die App erlaubt Online-Buchungen nur innerhalb der hinterlegten Sprechzeiten der
 **Konfidenz: 10**
 
 **Wie geprüft?**  
-In `app/api/termine/verfuegbarkeit/route.ts` wird `isWeekend` geprüft, eine Praxisschließungs-Abfrage gemacht, und für jeden Arzt werden nur Slots innerhalb seiner `sprechzeiten` generiert.
+In `app/api/termine/verfuegbarkeit/route.ts` wird `isWeekend` geprüft, eine Praxisschließungs-Abfrage gemacht, und für jeden Arzt werden nur Slots innerhalb seiner `sprechzeiten` generiert. Abwesende Ärzte werden übersprungen.
 
 ---
 
@@ -36,22 +36,24 @@ Patienten und Ärzt:innen sind über eine n:m-Beziehung verknüpft, vermittelt d
 
 ---
 
-## 4. Widerspruchsauflösung: Doppelbuchung verhindern (Slot-Kollisionsprüfung)
+## 4. Widerspruchsauflösung: Doppelbuchung verhindern (echte Zeitbereichs-Kollisionsprüfung)
 
 **Aussage:**  
-Widersprüchliche Doppelbuchungen desselben Slots werden durch Kollisionsprüfung in `PATCH /api/termine/[id]/umbuchen` und `POST /api/termine/buchen` verhindert.
+Widersprüchliche Doppelbuchungen werden durch eine echte Zeitbereichs-Überlappungsprüfung in `POST /api/termine/buchen` und `PATCH /api/termine/[id]/umbuchen` verhindert – unabhängig von der Terminart.
 
 **Konfidenz: 10**
 
 **Wie geprüft?**  
-Beide Routen prüfen vor der Buchung/Umbuchung einen bestehenden Termin mit gleichem Arzt, Terminart, Datum und Startzeit und lehnen mit Status `409` ab, falls eine Kollision vorliegt.
+Beide Routen laden alle bestehenden Buchungen für denselben Arzt und Tag und prüfen, ob sich die Zeitfenster überlappen:  
+`neuerStart < bestehendesEnde && neuesEnde > bestehenderStart`  
+Wird eine Überlappung gefunden, lehnen beide mit Status `409` ab.
 
 ---
 
 ## 5. Frei: Nur leitende MFAs dürfen Online-Sperren aufheben
 
 **Aussage:**  
-In der App können nur MFAs mit der Berechtigungsstufe `"erweitert"` (leitende MFAs) eine Patientensperre aufheben – MFAs mit `"standard"` werden abgewiesen.
+In der App können nur MFAs mit der Berechtigungsstufe `"erweitert"` eine Patientensperre aufheben – MFAs mit `"standard"` werden abgewiesen.
 
 **Konfidenz: 10**
 
