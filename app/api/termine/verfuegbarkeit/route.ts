@@ -76,7 +76,7 @@ export async function GET(request: NextRequest) {
 
           // Kollision mit bestehenden Buchungen?
           const kollidiert = buchungen.some((b) => {
-            if (b.arztId !== arzt.id || b.terminartId !== ta.id) return false;
+            if (b.arztId !== arzt.id) return false;
             const [bSH, bSM] = b.startzeit.split(":").map(Number);
             const [bEH, bEM] = b.endzeit.split(":").map(Number);
             const bStart = bSH * 60 + bSM;
