@@ -1389,22 +1389,5 @@ Die App folgt diesen Grundsätzen:
 - Jede Buchung erfordert eindeutige Identifikation.
 - Rezeptfreigaben sind ärztliche Entscheidungen und müssen nachvollziehbar bleiben.
 
----
 
-# 13. Abdeckung der Mindestanforderungen
 
-| Bereich | Mindestanforderung | In dieser SPEC | Bewertung |
-|---|---:|---:|---|
-| Entitäten | 6–8 | 8 Kernentitäten + 6 erweiterte | erfüllt und erweitert |
-| Beziehungen | 6–9 | 9 Kernbeziehungen + 7 erweiterte | erfüllt und erweitert |
-| n:m-Beziehung | mindestens 1 | Abwesenheitsereignis ↔ Ärzt:innen | erfüllt |
-| Business Rules | 4–5 | 30 Regeln | deutlich erfüllt |
-| Widersprüche | ca. 2 | 7 erkannt und aufgelöst | deutlich erfüllt |
-| Prioritäten | empfohlen | Must/Should/Could/Won't | erfüllt |
-| Offene Fragen | empfohlen | 7 offene Fragen | erfüllt |
-| Statusmodelle | Zusatz | 5 Statusmodelle | erweitert |
-| Architektur-Kern | Zusatz | vorhanden | erweitert |
-
-## Fazit
-
-Diese SPEC erfüllt die Mindestanforderungen deutlich und geht darüber hinaus. Sie enthält ein vollständiges Anforderungsmodell mit Kern- und Erweiterungsentitäten, klaren Kardinalitäten, einer n:m-Beziehung, konkreten Business Rules, aufgelösten Widersprüchen, Prioritäten, offenen Fragen, Statusmodellen und einem Architektur-Kern für die spätere App-Umsetzung.
