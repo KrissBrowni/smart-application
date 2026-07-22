@@ -4,10 +4,10 @@ import { prisma } from "@/lib/prisma";
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { patientCode, geburtsdatum } = body;
+    const { patientCode, passwort } = body;
 
-    if (!patientCode || !geburtsdatum) {
-      return NextResponse.json({ error: "Patient-Code und Geburtsdatum erforderlich" }, { status: 400 });
+    if (!patientCode || !passwort) {
+      return NextResponse.json({ error: "Patient-Code und Passwort erforderlich" }, { status: 400 });
     }
 
     const patient = await prisma.patient.findUnique({
@@ -18,10 +18,9 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Patient nicht gefunden" }, { status: 404 });
     }
 
-    // Geburtsdatum prüfen
-    const gebDatum = new Date(geburtsdatum + "T00:00:00Z");
-    if (patient.geburtsdatum.toISOString().split("T")[0] !== gebDatum.toISOString().split("T")[0]) {
-      return NextResponse.json({ error: "Geburtsdatum stimmt nicht überein" }, { status: 403 });
+    // Passwort prüfen
+    if (patient.passwort !== passwort) {
+      return NextResponse.json({ error: "Passwort falsch" }, { status: 403 });
     }
 
     // Sperrstatus prüfen
@@ -31,11 +30,13 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       success: true,
+      passwortGeaendert: patient.passwortGeaendert,
       patient: {
         id: patient.id,
         name: patient.name,
         patientCode: patient.patientCode,
         sperrstatus: patient.sperrstatus,
+        passwortGeaendert: patient.passwortGeaendert,
       },
     });
   } catch (error) {

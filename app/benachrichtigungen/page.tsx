@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import LoadingSpinner from "@/app/components/loading-spinner";
 
 interface Benachrichtigung {
   id: number;
@@ -71,7 +72,7 @@ export default function BenachrichtigungenPage() {
         </button>
       </section>
 
-      {loading && <p>Lade...</p>}
+      {loading && <LoadingSpinner text="Benachrichtigungen werden geladen..." />}
 
       {data.length === 0 && !loading && (
         <p style={{ color: "var(--gray-light)" }}>

@@ -6,6 +6,10 @@ function generatePatientCode(): string {
   return "PAT-" + crypto.randomBytes(3).toString("hex").toUpperCase();
 }
 
+function generatePin(): string {
+  return String(Math.floor(1000 + Math.random() * 9000)); // 4-stelliger PIN
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
@@ -29,7 +33,7 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    // Neuen Patienten mit Code anlegen
+    // Neuen Patienten mit Code und PIN anlegen
     let patientCode = '';
     let exists = true;
     while (exists) {
@@ -37,9 +41,13 @@ export async function POST(request: NextRequest) {
       exists = !!(await prisma.patient.findUnique({ where: { patientCode } }));
     }
 
+    const pin = generatePin();
+
     patient = await prisma.patient.create({
       data: {
         patientCode,
+        passwort: pin,
+        passwortGeaendert: false,
         name,
         geburtsdatum: new Date(geburtsdatum + "T00:00:00Z"),
         telefonnummer,
@@ -54,6 +62,7 @@ export async function POST(request: NextRequest) {
       success: true,
       patientCode: patient.patientCode,
       patientId: patient.id,
+      pin: pin,
       bereitsRegistriert: false,
     }, { status: 201 });
   } catch (error) {

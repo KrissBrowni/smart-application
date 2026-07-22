@@ -9,6 +9,8 @@ datasource db {
 
 // E1 – Patient
 model Patient {
+  passwort            String  @default("0000")
+  passwortGeaendert   Boolean   @default(false)
   patientCode  String   @unique
   bevorzugterArztId Int?
   id                    Int       @id @default(autoincrement())

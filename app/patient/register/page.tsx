@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import LoadingSpinner from "@/app/components/loading-spinner";
 import Link from "next/link";
 
 export default function RegisterPage() {
@@ -9,7 +10,7 @@ export default function RegisterPage() {
   const [telefonnummer, setTelefonnummer] = useState("");
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<{ patientCode: string; bereitsRegistriert: boolean } | null>(null);
+  const [result, setResult] = useState<{ patientCode: string; pin: string; bereitsRegistriert: boolean } | null>(null);
   const [error, setError] = useState("");
 
   async function register() {
@@ -48,8 +49,16 @@ export default function RegisterPage() {
           <p style={{ fontSize: "1.5rem", fontWeight: 700, letterSpacing: "0.1em", color: "var(--primary-dark)" }}>
             {result.patientCode}
           </p>
+          {result.pin && (
+            <>
+              <p style={{ fontWeight: 600, marginTop: "1rem", marginBottom: "0.5rem" }}>Ihr Passwort (PIN):</p>
+              <p style={{ fontSize: "1.5rem", fontWeight: 700, letterSpacing: "0.1em", color: "var(--accent-dark)" }}>
+                {result.pin}
+              </p>
+            </>
+          )}
           <p style={{ fontSize: "0.85rem", color: "var(--gray)", marginTop: "0.5rem" }}>
-            Diesen Code bei jeder Buchung verwenden. Nicht weitergeben.
+            Bitte beim ersten Login ändern. Nicht weitergeben.
           </p>
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem", alignItems: "center" }}>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import LoadingSpinner from "@/app/components/loading-spinner";
 
 export default function RezeptAnfragenPage() {
   const [patientName, setPatientName] = useState("");

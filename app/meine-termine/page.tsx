@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import LoadingSpinner from "@/app/components/loading-spinner";
 import { useRouter } from "next/navigation";
 
 interface TerminItem {
@@ -89,7 +90,7 @@ export default function MeineTerminePage() {
         <button onClick={() => laden()} disabled={!patientCode} style={btnStyle}>Suchen</button>
       </section>
 
-      {loading && <p>Lade...</p>}
+      {loading && <LoadingSpinner text="Termine werden geladen..." />}
       {error && <p style={{ color: "var(--accent-dark)", marginBottom: "1rem" }}>{error}</p>}
       {erfolg && <p style={{ color: "var(--primary-dark)", marginBottom: "1rem", padding: "0.5rem", background: "var(--primary-bg)", borderRadius: "4px" }}>{erfolg}</p>}
 

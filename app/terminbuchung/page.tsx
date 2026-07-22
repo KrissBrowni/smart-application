@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import LoadingSpinner from "@/app/components/loading-spinner";
 import { useRouter } from "next/navigation";
 
 interface Slot {

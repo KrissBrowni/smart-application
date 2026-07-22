@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import LoadingSpinner from "@/app/components/loading-spinner";
 
 export default function DashboardPage() {
   const [data, setData] = useState<any>(null);
@@ -11,6 +12,7 @@ export default function DashboardPage() {
     const res = await fetch("/api/mfa/dashboard");
     const d = await res.json();
     setData(d);
+    setLoading(false);
     setLoading(false);
   }
 
@@ -30,7 +32,7 @@ export default function DashboardPage() {
         </button>
       </div>
 
-      {loading && <p>Lade...</p>}
+      {loading && <LoadingSpinner text="Dashboard wird geladen..." />}
 
       {data && (
         <>

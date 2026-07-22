@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import LoadingSpinner from "@/app/components/loading-spinner";
 
 export default function OptInPage() {
   const [patientCode, setPatientCode] = useState("");

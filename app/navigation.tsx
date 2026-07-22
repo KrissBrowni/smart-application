@@ -1,22 +1,34 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
 
 export default function Navigation() {
   const pathname = usePathname();
+  const router = useRouter();
   const [open, setOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const code = sessionStorage.getItem("patientCode");
+    setIsLoggedIn(!!code);
+  }, [pathname]);
+
+  function logout() {
+    sessionStorage.clear();
+    setIsLoggedIn(false);
+    router.push("/");
+  }
 
   const links = [
     { href: "/", label: "Start" },
     { href: "/terminbuchung", label: "Termin buchen" },
     { href: "/meine-termine", label: "Meine Termine" },
     { href: "/rezept-anfragen", label: "Rezept anfragen" },
-    { href: "/opt-in", label: "Benachrichtigungen" },
+    { href: "/benachrichtigungen", label: "Benachrichtigungen" },
+    { href: "/opt-in", label: "Einstellungen" },
     { href: "/warteliste", label: "Warteliste" },
-    { href: "/patient/login", label: "Login" },
-    { href: "/patient/register", label: "Registrieren" },
     { href: "/dashboard", label: "Dashboard (MFA)" },
   ];
 
@@ -45,7 +57,7 @@ export default function Navigation() {
       </button>
 
       <div style={{
-        display: "flex", gap: "0.75rem", flexWrap: "wrap",
+        display: "flex", gap: "0.75rem", flexWrap: "wrap", alignItems: "center",
       }} className="nav-links">
         {links.map((link) => (
           <Link
@@ -62,6 +74,16 @@ export default function Navigation() {
             {link.label}
           </Link>
         ))}
+
+        {isLoggedIn && (
+          <button onClick={logout} style={{
+            padding: "0.25rem 0.75rem", background: "rgba(255,255,255,0.2)", color: "white",
+            border: "1px solid white", borderRadius: "4px", cursor: "pointer", fontSize: "0.85rem",
+            fontWeight: 500,
+          }}>
+            Logout
+          </button>
+        )}
       </div>
 
       <style>{`
