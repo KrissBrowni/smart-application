@@ -173,7 +173,7 @@ model Patientensperre {
   grund           String   // drei_no_shows, manuell, sonstiges
   status          String   @default("aktiv") // aktiv, aufgehoben
   aktiviertAm     DateTime @default(now())
-  aktiviertDurch  Int      // arzt_id oder mfa_id
+  aktiviertDurch  Int?     // arzt_id oder mfa_id (null = System)
   aufgehobenAm    DateTime?
   aufgehobenDurch Int?
 

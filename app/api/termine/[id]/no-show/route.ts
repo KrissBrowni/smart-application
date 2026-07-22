@@ -49,7 +49,7 @@ export async function PATCH(
         data: {
           patientId: patient.id,
           grund: "drei_no_shows",
-          aktiviertDurch: 0, // System
+          aktiviertDurch: null, // null = System
         },
       });
     }

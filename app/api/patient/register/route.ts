@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { hashPasswort } from "@/lib/password";
 import crypto from "crypto";
 
 function generatePatientCode(): string {
@@ -7,7 +8,7 @@ function generatePatientCode(): string {
 }
 
 function generatePin(): string {
-  return String(Math.floor(1000 + Math.random() * 9000)); // 4-stelliger PIN
+  return String(Math.floor(1000 + Math.random() * 9000));
 }
 
 export async function POST(request: NextRequest) {
@@ -19,7 +20,6 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Name, Geburtsdatum und Telefonnummer sind Pflicht" }, { status: 400 });
     }
 
-    // Prüfen, ob Patient bereits existiert
     let patient = await prisma.patient.findFirst({
       where: { name, geburtsdatum: new Date(geburtsdatum + "T00:00:00Z") },
     });
@@ -33,7 +33,6 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    // Neuen Patienten mit Code und PIN anlegen
     let patientCode = '';
     let exists = true;
     while (exists) {
@@ -42,11 +41,12 @@ export async function POST(request: NextRequest) {
     }
 
     const pin = generatePin();
+    const passwortHash = await hashPasswort(pin);
 
     patient = await prisma.patient.create({
       data: {
         patientCode,
-        passwort: pin,
+        passwort: passwortHash,
         passwortGeaendert: false,
         name,
         geburtsdatum: new Date(geburtsdatum + "T00:00:00Z"),

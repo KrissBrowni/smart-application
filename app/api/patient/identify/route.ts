@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { passwortVergleichen } from "@/lib/password";
 
 export async function POST(request: NextRequest) {
   try {
@@ -18,8 +19,9 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Patient nicht gefunden" }, { status: 404 });
     }
 
-    // Passwort prüfen
-    if (patient.passwort !== passwort) {
+    // Passwort-Hash vergleichen
+    const passwortGueltig = await passwortVergleichen(passwort, patient.passwort);
+    if (!passwortGueltig) {
       return NextResponse.json({ error: "Passwort falsch" }, { status: 403 });
     }
 

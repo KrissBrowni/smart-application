@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import { hashPasswort } from "../lib/password";
 
 const prisma = new PrismaClient();
 
@@ -39,7 +40,7 @@ async function main() {
     update: {},
     create: {
       patientCode: "PAT-TEST01",
-      passwort: "1234",
+      passwort: await hashPasswort("1234"),
       passwortGeaendert: true,
       name: "Max Mustermann",
       geburtsdatum: new Date("1990-03-15T00:00:00Z"),
@@ -83,7 +84,7 @@ async function main() {
     update: {},
     create: {
       patientCode: "PAT-TEST02",
-      passwort: "5678",
+      passwort: await hashPasswort("5678"),
       passwortGeaendert: true,
       name: "Erika Schmidt",
       geburtsdatum: new Date("1985-07-22T00:00:00Z"),
@@ -131,7 +132,7 @@ async function main() {
     update: {},
     create: {
       patientCode: "PAT-TEST03",
-      passwort: "0000",
+      passwort: await hashPasswort("0000"),
       passwortGeaendert: false,
       name: "Klaus Weber",
       geburtsdatum: new Date("1972-11-08T00:00:00Z"),
@@ -152,7 +153,7 @@ async function main() {
     update: {},
     create: {
       patientCode: "PAT-TEST04",
-      passwort: "4321",
+      passwort: await hashPasswort("4321"),
       passwortGeaendert: true,
       name: "Anna Fischer",
       geburtsdatum: new Date("1995-02-28T00:00:00Z"),
@@ -187,7 +188,7 @@ async function main() {
     update: {},
     create: {
       patientCode: "PAT-TEST05",
-      passwort: "9999",
+      passwort: await hashPasswort("9999"),
       passwortGeaendert: true,
       name: "Tobias Klein",
       geburtsdatum: new Date("2000-06-10T00:00:00Z"),

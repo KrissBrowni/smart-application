@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { hashPasswort, passwortVergleichen } from "@/lib/password";
 
 export async function PATCH(request: NextRequest) {
   try {
@@ -22,13 +23,16 @@ export async function PATCH(request: NextRequest) {
       return NextResponse.json({ error: "Patient nicht gefunden" }, { status: 404 });
     }
 
-    if (patient.passwort !== altesPasswort) {
+    const altesGueltig = await passwortVergleichen(altesPasswort, patient.passwort);
+    if (!altesGueltig) {
       return NextResponse.json({ error: "Altes Passwort falsch" }, { status: 403 });
     }
 
+    const neuerHash = await hashPasswort(neuesPasswort);
+
     await prisma.patient.update({
       where: { patientCode: patientCode.toUpperCase() },
-      data: { passwort: neuesPasswort, passwortGeaendert: true },
+      data: { passwort: neuerHash, passwortGeaendert: true },
     });
 
     return NextResponse.json({ success: true });
